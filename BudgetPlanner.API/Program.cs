@@ -1,6 +1,4 @@
-// =========================================================================
-// 1. ИМПОРТЫ (Imports)
-// =========================================================================
+
 using BudgetPlanner.API.Data;
 using BudgetPlanner.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +11,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // =========================================================================
-// 2. РЕГИСТРАЦИЯ СЕРВИСОВ (Add Services)
+// 1. РЕГИСТРАЦИЯ СЕРВИСОВ (Add Services)
 // =========================================================================
 
-// 2.1. Контекст БД (SQLite)
+// 1.1. Контекст БД (SQLite)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// 2.2. Сервисы Identity (Пользователи и Роли)
+// 1.2. Сервисы Identity (Пользователи и Роли)
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     // Требования к паролю
@@ -34,7 +32,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>() // Используем AppDbContext для хранения Identity-данных
 .AddDefaultTokenProviders();
 
-// 2.3. Конфигурация JWT Authentication
+// 1.3. Конфигурация JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -54,7 +52,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// 2.4. Политика CORS (Для фронтенда React)
+// 1.4. Политика CORS (Для фронтенда React)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
@@ -66,17 +64,15 @@ builder.Services.AddCors(options =>
         });
 });
 
-// 2.5. Стандартные сервисы API
+// 1.5. Стандартные сервисы API
 builder.Services.AddControllers();
 builder.Services.AddOpenApi(); 
 
 var app = builder.Build();
 
-// =========================================================================
-// 3. КОНВЕЙЕР ОБРАБОТКИ ЗАПРОСОВ (Middleware Pipeline)
-// =========================================================================
+// 2. КОНВЕЙЕР ОБРАБОТКИ ЗАПРОСОВ (Middleware Pipeline)
 
-// 3.1. OpenAPI/Swagger (только в режиме разработки)
+// 2.1. OpenAPI/Swagger (только в режиме разработки)
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -84,16 +80,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 3.2. CORS (ДОЛЖЕН БЫТЬ ПЕРЕД АУТЕНТИФИКАЦИЕЙ)
+// 2.2. CORS (ДОЛЖЕН БЫТЬ ПЕРЕД АУТЕНТИФИКАЦИЕЙ)
 app.UseCors("CorsPolicy");
 
-// 3.3. Authentication (Кто ты?)
+// 2.3. Authentication (Кто ты?)
 app.UseAuthentication();
 
-// 3.4. Authorization (Что тебе можно?)
+// 2.4. Authorization (Что тебе можно?)
 app.UseAuthorization();
 
-// 3.5. Маппинг контроллеров
+// 2.5. Маппинг контроллеров
 app.MapControllers();
 
 app.Run();
