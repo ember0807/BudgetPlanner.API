@@ -1,0 +1,36 @@
+Фаза I: Настройка ядра и базы данных (ЗАВЕРШЕНО)
+ * ~~Создание моделей данных (User.cs, Transaction.cs, Category.cs, SavingsGoal.cs).~~
+ * ~~Создание контекста базы данных Data/AppDbContext.cs.~~
+ * ~~Настройка строки подключения в appsettings.json (SQLite).~~
+ * ~~Настройка CORS и базовых сервисов в Program.cs.~~
+ * ~~Применение начальной миграции (dotnet ef migrations add InitialCreate) и обновление БД (dotnet ef database update).~~
+
+Фаза II: Аутентификация и безопасность (ПОЧТИ ЗАВЕРШЕНО)
+ * ~~Установка пакетов ASP.NET Identity и JWT Bearer.~~
+ * ~~Обновление User.cs для наследования от IdentityUser.~~
+ * ~~Обновление AppDbContext.cs для наследования от IdentityDbContext<User>.~~
+ * ~~Применение миграции для таблиц Identity (dotnet ef migrations add AddIdentityTables) и обновление БД.~~
+ * ~~Настройка сервисов Identity и JWT Authentication в Program.cs.~~
+ * ~~Добавление секции Jwt в appsettings.Development.json .~~
+
+ Настройка запуска проекта для отображения Swagger.
+
+
+Фаза III: Создание контроллера аутентификации
+14. Создание папки DTOs и DTO-моделей (RegisterRequest.cs, LoginRequest.cs).
+15. Создание контроллера Controllers/AuthController.cs с методами Register и Login.
+16. Проверка: Запустить проект, открыть Swagger, протестировать методы Register и Login для получения JWT-токена.
+
+Фаза IV: Создание контроллеров данных
+ * Создание DTO для данных: Создать модели для запросов и ответов
+ * Создание CategoryController:
+   * Реализация CRUD для категорий.
+   * Добавление атрибута [Authorize] для защиты эндпоинтов.
+ * Создание TransactionController:
+   * Реализация CRUD для транзакций.
+   * Реализация методов для фильтрации транзакций по дате, категории, типу (доход/расход).
+ * Создание SavingsGoalController:
+   * Реализация CRUD для целей сбережений.
+
+Фаза V: если останется время
+ * Реализация сервисов (Service Layer): (Опционально, для чистого кода) Перенести логику работы с базой данных из контроллеров в отдельные классы-сервисы.
